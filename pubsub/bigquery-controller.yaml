@@ -19,12 +19,12 @@ spec:
           value: pubsub-to-bigquery
         # Change this to your pubsub topic
         - name: PUBSUB_TOPIC
-          value: projects/your-project/topics/your-topic
+          value: projects/acnskunks-gcp-esy/topics/Tweets
         # Change this to your project ID.
         - name: PROJECT_ID
-          value: xxxx
+          value: acnskunks-gcp-esy
         # Change the following two settings to your dataset and table.
         - name: BQ_DATASET
-          value: xxxx
+          value: twitterdataset
         - name: BQ_TABLE
-          value: xxxx
+          value: newtweets

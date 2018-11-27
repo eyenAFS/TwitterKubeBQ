@@ -19,16 +19,16 @@ spec:
           value: twitter-to-pubsub
         # Change this to your pubsub topic
         - name: PUBSUB_TOPIC
-          value: projects/your-project/topics/your-topic
+          value: projects/acnskunks-gcp-esy/topics/Tweets
         # Change the following four settings to your twitter credentials
         # information.
         - name: CONSUMERKEY
-          value: xxxx
+          value: NrPXkRxqG4RD5PZ5q6umIknCI
         - name: CONSUMERSECRET
-          value: xxxx
+          value: ReYaKbOSbY8TcuHvLL1X3cm0WMy5yZrU6rpPy4GrR3M6wy0Moe
         - name: ACCESSTOKEN
-          value: xxxx
+          value: 22825429-bTVEufhQ0ErB4QFhMgHkQbhtDSJxed05dQtE3rtWP
         - name: ACCESSTOKENSEC
-          value: xxxx
+          value: geyclh78R5IlXP4zXXdj0yIaHJRmWQSnGgpqULcKDiHge
         - name: TWSTREAMMODE
-          value: sample
+          value: other
