@@ -98,10 +98,12 @@ if __name__ == '__main__':
     # will sample the twitter public stream. If not 'sample', instead track
     # the given set of keywords.
     # This environment var is set in the 'twitter-stream.yaml' file.
-
-	stream.filter(
-			track=['opioid', 'codeine', 'methadone', 'oxycontin', 'heroin',
-				   'hydrocodone', 'fentanyl', 'naloxone',
-				   'opioids', 'overdose', 'oxycodone', 'Vicodin',
-				   'methadone', 'morphine', 'smack']
-			)
+    if os.environ['TWSTREAMMODE'] == 'sample':
+        stream.sample()
+    else:
+        stream.filter(
+				track=['opioid', 'codeine', 'methadone', 'oxycontin', 'heroin',
+					   'hydrocodone', 'fentanyl', 'naloxone',
+					   'opioids', 'overdose', 'oxycodone', 'Vicodin',
+					   'methadone', 'morphine', 'smack']
+				)
