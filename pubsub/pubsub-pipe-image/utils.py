@@ -77,7 +77,8 @@ def cleanup(data):
         for k, v in data.items():
             if (k == 'coordinates') and isinstance(v, list):
                 # flatten list
-				print(v)
+				print data.items()
+				print k, v
                 long = v[0]
                 lat = v[1]
                 newdict[k] = list(flatten(v))
