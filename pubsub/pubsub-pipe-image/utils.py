@@ -55,11 +55,10 @@ def create_pubsub_client(credentials):
     http = httplib2.Http()
     credentials.authorize(http)
     return discovery.build('pubsub', 'v1beta2', http=http)
-
+	
 def ziplookip(lat, long):
-	"""Helper function to pull zipcode from coordinates"""
     zipsearch = search.by_coordinates(lat, long, radius = 10, returns = 1)
-	return zipsearch[0].zipcode
+    return zipsearch[0].zipcode
 	
 def flatten(lst):
     """Helper function used to massage the raw tweet data."""
@@ -70,7 +69,6 @@ def flatten(lst):
                 yield sub
         else:
             yield el
-
 
 def cleanup(data):
     """Do some data massaging."""
@@ -83,7 +81,6 @@ def cleanup(data):
                 lat = v[1]
                 newdict[k] = list(flatten(v))
                 newdict['zipcode'] = ziplookip(lat, long)
-                
             elif k == 'created_at' and v:
                 newdict[k] = str(dateutil.parser.parse(v))
             # temporarily, ignore some fields not supported by the
