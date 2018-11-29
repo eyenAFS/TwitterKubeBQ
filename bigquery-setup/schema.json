@@ -508,6 +508,11 @@
             "name": "coordinates",
             "type": "FLOAT",
             "mode": "REPEATED"
+          },
+          {
+            "name": "zipcode",
+            "type": "INTEGER",
+            "mode": "NULLABLE"
           }
         ]
       },
@@ -1064,11 +1069,6 @@
             "name": "coordinates",
             "type": "FLOAT",
             "mode": "REPEATED"
-          },
-          {
-            "name": "zipcode",
-            "type": "INTEGER",
-            "mode": "NULLABLE"
           }
         ]
       },
