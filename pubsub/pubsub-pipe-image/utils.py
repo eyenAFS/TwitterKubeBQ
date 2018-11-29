@@ -59,7 +59,7 @@ def create_pubsub_client(credentials):
 def ziplookip(lat, long):
 	"""Helper function to pull zipcode from coordinates"""
     zipsearch = search.by_coordinates(lat, long, radius = 10, returns = 1)
-    return zipsearch[0].zipcode
+	return zipsearch[0].zipcode
 	
 def flatten(lst):
     """Helper function used to massage the raw tweet data."""
