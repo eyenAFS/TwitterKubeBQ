@@ -101,9 +101,9 @@ if __name__ == '__main__':
     if os.environ['TWSTREAMMODE'] == 'sample':
         stream.sample()
     else:
-        stream.filter(
+	    stream.filter(
 				track=['opioid', 'codeine', 'methadone', 'oxycontin', 'heroin',
 					   'hydrocodone', 'fentanyl', 'naloxone',
 					   'opioids', 'overdose', 'oxycodone', 'Vicodin',
-					   'methadone', 'morphine', 'smack']
+					   'methadone', 'morphine', 'opiate', 'nodding', 'dogfood', 'oxy', 'fent', 'percocet', 'percs', 'Oxycotton', 'hillbillyheroin', ]
 				)

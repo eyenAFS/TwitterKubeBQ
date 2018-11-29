@@ -25,6 +25,9 @@ from apiclient import discovery
 import dateutil.parser
 import httplib2
 from oauth2client.client import GoogleCredentials
+from uszipcode import Zipcode
+from uszipcode import SearchEngine
+search = SearchEngine(simple_zipcode=True)
 
 SCOPES = ['https://www.googleapis.com/auth/bigquery',
           'https://www.googleapis.com/auth/pubsub']
@@ -53,7 +56,11 @@ def create_pubsub_client(credentials):
     credentials.authorize(http)
     return discovery.build('pubsub', 'v1beta2', http=http)
 
-
+def ziplookip(lat, long):
+	"""Helper function to pull zipcode from coordinates"""
+    zipsearch = search.by_coordinates(lat, long, radius = 10, returns = 1)
+    return zipsearch[0].zipcode
+	
 def flatten(lst):
     """Helper function used to massage the raw tweet data."""
     for el in lst:
@@ -72,7 +79,11 @@ def cleanup(data):
         for k, v in data.items():
             if (k == 'coordinates') and isinstance(v, list):
                 # flatten list
+                long = v[0]
+                lat = v[1]
                 newdict[k] = list(flatten(v))
+                newdict['zipcode'] = ziplookip(lat, long)
+                
             elif k == 'created_at' and v:
                 newdict[k] = str(dateutil.parser.parse(v))
             # temporarily, ignore some fields not supported by the
@@ -99,7 +110,6 @@ def cleanup(data):
         return newlist
     else:
         return data
-
 
 def bq_data_insert(bigquery, project_id, dataset, table, tweets):
     """Insert a list of tweets into the given BigQuery table."""
