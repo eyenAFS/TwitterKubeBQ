@@ -27,6 +27,7 @@ import httplib2
 from oauth2client.client import GoogleCredentials
 from uszipcode import Zipcode
 from uszipcode import SearchEngine
+
 search = SearchEngine(simple_zipcode=True)
 
 SCOPES = ['https://www.googleapis.com/auth/bigquery',
@@ -34,12 +35,11 @@ SCOPES = ['https://www.googleapis.com/auth/bigquery',
 NUM_RETRIES = 3
 
 
-
 def get_credentials():
     """Get the Google credentials needed to access our services."""
     credentials = GoogleCredentials.get_application_default()
     if credentials.create_scoped_required():
-            credentials = credentials.create_scoped(SCOPES)
+        credentials = credentials.create_scoped(SCOPES)
     return credentials
 
 
@@ -55,11 +55,13 @@ def create_pubsub_client(credentials):
     http = httplib2.Http()
     credentials.authorize(http)
     return discovery.build('pubsub', 'v1beta2', http=http)
-	
+
+
 def ziplookip(lat, long):
-    zipsearch = search.by_coordinates(lat, long, radius = 10, returns = 1)
+    zipsearch = search.by_coordinates(lat, long, radius=10, returns=1)
     return zipsearch[0].zipcode
-	
+
+
 def flatten(lst):
     """Helper function used to massage the raw tweet data."""
     for el in lst:
@@ -70,6 +72,7 @@ def flatten(lst):
         else:
             yield el
 
+
 def cleanup(data):
     """Do some data massaging."""
     if isinstance(data, dict):
@@ -77,12 +80,12 @@ def cleanup(data):
         for k, v in data.items():
             if (k == 'coordinates') and isinstance(v, list):
                 # flatten list
-				print data.items()
-				print k, v
+                print data.items()
+                print k, v
                 long = v[0]
                 lat = v[1]
                 newdict[k] = list(flatten(v))
-                newdict['zipcode'] = ziplookip(lat, long)
+                newdict['zipcode'] = ziplookup(lat, long)
             elif k == 'created_at' and v:
                 newdict[k] = str(dateutil.parser.parse(v))
             # temporarily, ignore some fields not supported by the
@@ -110,6 +113,7 @@ def cleanup(data):
     else:
         return data
 
+
 def bq_data_insert(bigquery, project_id, dataset, table, tweets):
     """Insert a list of tweets into the given BigQuery table."""
     try:
@@ -121,8 +125,8 @@ def bq_data_insert(bigquery, project_id, dataset, table, tweets):
         body = {"rows": rowlist}
         # Try the insertion.
         response = bigquery.tabledata().insertAll(
-                projectId=project_id, datasetId=dataset,
-                tableId=table, body=body).execute(num_retries=NUM_RETRIES)
+            projectId=project_id, datasetId=dataset,
+            tableId=table, body=body).execute(num_retries=NUM_RETRIES)
         # print "streaming response: %s %s" % (datetime.datetime.now(), response)
         return response
         # TODO: 'invalid field' errors can be detected here.
