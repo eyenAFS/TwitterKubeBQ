@@ -58,8 +58,14 @@ def create_pubsub_client(credentials):
 
 
 def ziplookup(lat, long):
+    print lat, long
     zipsearch = search.by_coordinates(lat, long, radius=10, returns=1)
-    return zipsearch[0].zipcode
+    print zipsearch
+    try:
+        zip = zipsearch[0].zipcode
+        return zip
+    except:
+        print "Giving Up"
 
 
 def flatten(lst):
