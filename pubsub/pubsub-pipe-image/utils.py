@@ -82,8 +82,8 @@ def cleanup(data):
                 # flatten list
                 print data.items()
                 print k, v
-                long = v[0]
-                lat = v[1]
+                long = v[0][0][0]
+                lat = v[0][0][1]
                 newdict[k] = list(flatten(v))
                 newdict['zipcode'] = ziplookup(lat, long)
             elif k == 'created_at' and v:
