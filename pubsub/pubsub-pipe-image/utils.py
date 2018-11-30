@@ -57,7 +57,7 @@ def create_pubsub_client(credentials):
     return discovery.build('pubsub', 'v1beta2', http=http)
 
 
-def ziplookip(lat, long):
+def ziplookup(lat, long):
     zipsearch = search.by_coordinates(lat, long, radius=10, returns=1)
     return zipsearch[0].zipcode
 
