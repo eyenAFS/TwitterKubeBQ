@@ -91,7 +91,11 @@ def cleanup(data):
                 long = v[0][0][0]
                 lat = v[0][0][1]
                 newdict[k] = list(flatten(v))
-                newdict['zipcode'] = ziplookup(lat, long)
+                try:
+                    zip = ziplookup(lat, long)
+                    newdict['zipcode'] = zip
+                except:
+                    print "zip code not found"
             elif k == 'created_at' and v:
                 newdict[k] = str(dateutil.parser.parse(v))
             # temporarily, ignore some fields not supported by the
