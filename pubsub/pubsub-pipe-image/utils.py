@@ -91,7 +91,7 @@ def cleanup(data):
                 long = v[0][0][0]
                 lat = v[0][0][1]
                 newdict[k] = list(flatten(v))
-                zip = zipcodelookup(lat, long)  # zip is N/A if no zip found, otherwise will store the zipcode into the array
+                zip = ziplookup(lat, long)  # zip is N/A if no zip found, otherwise will store the zipcode into the array
                 if zip == 'N/A':
                     print "No zipcode found for lat long"
                 else:
