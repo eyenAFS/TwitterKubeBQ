@@ -61,11 +61,11 @@ def ziplookup(lat, long):
     print lat, long
     zipsearch = search.by_coordinates(lat, long, radius=10, returns=1)
     print zipsearch
-    try:
-        zip = zipsearch[0].zipcode
+    zip = zipsearch[0].zipcode
+    if zip is not None:
         return zip
-    except:
-        print "Giving Up"
+    else:
+        return 'N/A'
 
 
 def flatten(lst):
@@ -91,11 +91,11 @@ def cleanup(data):
                 long = v[0][0][0]
                 lat = v[0][0][1]
                 newdict[k] = list(flatten(v))
-                try:
-                    zip = ziplookup(lat, long)
+                zip = zipcodelookup(lat, long)  # zip is N/A if no zip found, otherwise will store the zipcode into the array
+                if zip == 'N/A':
+                    print "No zipcode found for lat long"
+                else:
                     newdict['zipcode'] = zip
-                except:
-                    print "zip code not found"
             elif k == 'created_at' and v:
                 newdict[k] = str(dateutil.parser.parse(v))
             # temporarily, ignore some fields not supported by the
