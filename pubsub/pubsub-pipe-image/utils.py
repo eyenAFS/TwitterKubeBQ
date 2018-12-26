@@ -61,8 +61,8 @@ def ziplookup(lat, long):
     print lat, long
     zipsearch = search.by_coordinates(lat, long, radius=10, returns=1)
     print zipsearch
-    zip = zipsearch[0].zipcode
-    if zip is not None:
+    if zipsearch[0].zipcode is not None:
+        zip = zipsearch[0].zipcode
         return zip
     else:
         return 'N/A'
