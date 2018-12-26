@@ -88,10 +88,18 @@ def cleanup(data):
                 # flatten list
                 print data.items()
                 print k, v
-                long = v[0][0][0]
-                lat = v[0][0][1]
+                try:
+                    long = v[0][0][0]
+                except:
+                    long = v[0]
+                    print "Full series of coordinates not found"
+                try:
+                    lat = v[0][0][1]
+                except:
+                    lat = v[1]
                 newdict[k] = list(flatten(v))
-                zip = ziplookup(lat, long)  # zip is N/A if no zip found, otherwise will store the zipcode into the array
+                zip = ziplookup(lat,
+                                long)  # zip is N/A if no zip found, otherwise will store the zipcode into the array
                 if zip == 'N/A':
                     print "No zipcode found for lat long"
                 else:
