@@ -68,6 +68,24 @@ def ziplookup(lat, long):
         return 'N/A'
 
 
+def ziplookupcity(location):
+    print location
+    zipsearch = []
+    loc = [x.strip() for x in location.split(',')]
+    print loc
+    count = len(loc)
+    if count >= 2:
+        zipsearch = search.by_city_and_state(loc[0], loc[1], returns=1)
+    else:
+        zipsearch = search.by_city(location, returns=1)
+    print zipsearch
+    if zipsearch:
+        zip = zipsearch[0].zipcode
+        return zip
+    else:
+        return 'N/A'
+
+
 def flatten(lst):
     """Helper function used to massage the raw tweet data."""
     for el in lst:
@@ -120,7 +138,22 @@ def cleanup(data):
             else:
                 if k and v:
                     newdict[k] = cleanup(v)
+
+        if 'zipcode' in newdict.get('place', {}).get('bounding_box', {}):
+            newdict['zipcode'] = newdict['place']['bounding_box']['zipcode']
+            print "zipcode found in place/bounding_box/zipcode"
+        elif 'location' in newdict.get('user', {}):
+            print "looking for zip in location"
+            loc = newdict['user']['location']
+            zip = ziplookupcity(loc)
+            if zip == 'N/A':
+                print "No zipcode found for city data"
+            else:
+                newdict['zipcode'] = zip
+        else:
+            return newdict
         return newdict
+
     elif isinstance(data, list):
         newlist = []
         for item in data:
@@ -130,7 +163,6 @@ def cleanup(data):
         return newlist
     else:
         return data
-
 
 def bq_data_insert(bigquery, project_id, dataset, table, tweets):
     """Insert a list of tweets into the given BigQuery table."""
