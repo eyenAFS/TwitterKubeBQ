@@ -105,7 +105,7 @@ def write_to_bq(pubsub, sub_name, bigquery):
                     except Exception, bqe:
                         print bqe
                     # First do some massaging of the raw data
-                    mtweet = utils.cleanup(tweet)
+                    mtweet = utils.parse_zipcodes(utils.cleanup(tweet))
                     # We only want to write tweets to BigQuery; we'll skip
                     # 'delete' and 'limit' information.
                     if 'delete' in mtweet:

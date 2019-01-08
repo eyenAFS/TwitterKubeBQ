@@ -116,8 +116,7 @@ def cleanup(data):
                 except:
                     lat = v[1]
                 newdict[k] = list(flatten(v))
-                zip = ziplookup(lat,
-                                long)  # zip is N/A if no zip found, otherwise will store the zipcode into the array
+                zip = ziplookup(lat, long)  # zip is N/A if no zip found, otherwise will store the zipcode into the array
                 if zip == 'N/A':
                     print "No zipcode found for lat long"
                 else:
@@ -138,19 +137,6 @@ def cleanup(data):
             else:
                 if k and v:
                     newdict[k] = cleanup(v)
-        if 'zipcode' in newdict.get('place', {}).get('bounding_box', {}):
-            newdict['zipcode'] = newdict['place']['bounding_box']['zipcode']
-            print "zipcode found in place/bounding_box/zipcode"
-        elif 'location' in newdict.get('user', {}):
-            print "looking for zip in location"
-            loc = newdict['user']['location']
-            zip = ziplookupcity(loc)
-            if zip == 'N/A':
-                print "No zipcode found for city data"
-            else:
-                newdict['zipcode'] = zip
-        else:
-            print "Zip could not be extracted from coordinates or location"
         return newdict
     elif isinstance(data, list):
         newlist = []
@@ -159,6 +145,29 @@ def cleanup(data):
             if newdata:
                 newlist.append(newdata)
         return newlist
+    else:
+        return data
+
+
+def parse_zipcodes(data):
+    """Parse zipcode to its own field.  Do a lookup against location if no coordinates were pprovided"""
+    if isinstance(data, dict):
+        if 'zipcode' in data.get('place', {}).get('bounding_box', {}):
+            data['zipcode'] = data['place']['bounding_box']['zipcode']
+            print "zipcode found in place/bounding_box/zipcode"
+            return data
+        elif 'location' in newdict.get('user', {}):
+            print "looking for zip in location"
+            loc = data['user']['location']
+            zip = ziplookupcity(loc)
+            if zip == 'N/A':
+                print "No zipcode found for city data"
+            else:
+                data['zipcode'] = zip
+            return data
+        else:
+            print "Zip could not be extracted from coordinates or location"
+            return data
     else:
         return data
 
