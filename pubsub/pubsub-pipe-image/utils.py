@@ -138,7 +138,6 @@ def cleanup(data):
             else:
                 if k and v:
                     newdict[k] = cleanup(v)
-
         if 'zipcode' in newdict.get('place', {}).get('bounding_box', {}):
             newdict['zipcode'] = newdict['place']['bounding_box']['zipcode']
             print "zipcode found in place/bounding_box/zipcode"
@@ -151,9 +150,8 @@ def cleanup(data):
             else:
                 newdict['zipcode'] = zip
         else:
-            return newdict
+            print "Zip could not be extracted from coordinates or location"
         return newdict
-
     elif isinstance(data, list):
         newlist = []
         for item in data:
@@ -163,6 +161,7 @@ def cleanup(data):
         return newlist
     else:
         return data
+
 
 def bq_data_insert(bigquery, project_id, dataset, table, tweets):
     """Insert a list of tweets into the given BigQuery table."""
