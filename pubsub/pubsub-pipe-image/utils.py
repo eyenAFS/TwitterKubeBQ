@@ -156,7 +156,7 @@ def parse_zipcodes(data):
             data['zipcode'] = data['place']['bounding_box']['zipcode']
             print "zipcode found in place/bounding_box/zipcode"
             return data
-        elif 'location' in newdict.get('user', {}):
+        elif 'location' in data.get('user', {}):
             print "looking for zip in location"
             loc = data['user']['location']
             zip = ziplookupcity(loc)
