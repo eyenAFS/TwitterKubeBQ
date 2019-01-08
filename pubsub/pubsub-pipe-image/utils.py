@@ -77,7 +77,8 @@ def ziplookupcity(location):
     if count >= 2:
         zipsearch = search.by_city_and_state(loc[0], loc[1], returns=1)
     else:
-        zipsearch = search.by_city(location, returns=1)
+        '''zipsearch = search.by_city(location, returns=1) commented out as location only search seems unstable'''
+        print "no city, state combo found"
     print zipsearch
     if zipsearch:
         zip = zipsearch[0].zipcode
